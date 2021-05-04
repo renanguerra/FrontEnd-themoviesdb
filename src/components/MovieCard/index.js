@@ -42,16 +42,16 @@ const Description = styled.span`
     display:block;
 `
 
-export default function MovieCard(){
+export default function MovieCard(props){
     return(
         <MovieCardDiv>
-            <MovieCardImage poster={filme}>
+            <MovieCardImage poster={`https://image.tmdb.org/t/p/w200/${props.image}`}>
 
             </MovieCardImage>
             <MovieCardBody>
-                    <Title>Sword Art Online</Title>
-                    <Subtitle>18 de fevereiro de 2017</Subtitle>
-                    <Description>Em 2026, 4 anos após o infame incidente de Sword Art Online, uma nova forma de tecnologia emergiu: o Augma, um dispositivo que utiliza um sistema de Realidade Aumentada. Diferente da Realidade Virtual do NerveGear e do Amusphere, é perfeitamente seguro e permite aos jogadores à usarem enquanto estão conscientes, gerando um grande hit no mercado. A aplicação mais popular do Augma é o jogo Ordinal Scale, que emerge os jogadores em um RPG de fantasia com rankings e recompensas. Seguindo a nova mania, os amigos de Kirito mergulham no jogo e, apesar de seus receios sobre o sistema, Kirito eventualmente se junta à eles. Enquanto parece ser algo apenas para diversão e jogos à princípio, eles logo descobrem que o jogo não é tudo o que parece...</Description>
+                    <Title>{props.title}</Title>
+                    <Subtitle>{props.data}</Subtitle>
+                    <Description>{props.overview}</Description>
             </MovieCardBody>
         </MovieCardDiv>
     )
