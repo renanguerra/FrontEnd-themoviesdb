@@ -1,8 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import filme from '../../assets/filme.jpg'
-
 const MovieCardDiv = styled.div`
     width:85%;
     height: 143px;
@@ -11,7 +9,6 @@ const MovieCardDiv = styled.div`
     background-color: #fff;
     display:flex;
     border-radius: 8px;
-    font-family: 'Source Sans Pro', Arial, sans-serif;
     margin-bottom: 15px;
 `
 const MovieCardImage = styled.div`
@@ -42,16 +39,65 @@ const Description = styled.span`
     display:block;
 `
 
-export default function MovieCard(props){
+export default function MovieCard({title,data,overview,image}){
+
+
+    if(data){
+       
+        data = data.split("-")
+        
+        switch (data[1]){
+            case '01':
+                var month = 'Janeiro'
+                break;
+            case '02': 
+                var month = 'Fevereiro'
+                break;
+            case '03': 
+                var month = 'Março'
+                break;
+            case '04': 
+                var month = 'Abril'
+                break;
+            case '05': 
+                var month = 'Maio'
+                break;
+            case '06': 
+                var month = 'Junho'
+                break;
+            case '07': 
+                var month = 'Julho'
+                break;
+            case '08': 
+                var month = 'Agosto'
+                break;
+            case '09': 
+                var month = 'Setembro'
+                break;
+            case '10': 
+                var month = 'Outubro'
+                break;
+            case '11': 
+                var month = 'Novembro'
+                break;
+            case '12': 
+                var month = 'Dezembro'
+                break;
+        }
+    
+        data = data[2] +' de '+ month +' de '+ data[0]
+    }
+    
+
     return(
         <MovieCardDiv>
-            <MovieCardImage poster={`https://image.tmdb.org/t/p/w200/${props.image}`}>
+            <MovieCardImage poster={`https://image.tmdb.org/t/p/w200/${image}`}>
 
             </MovieCardImage>
             <MovieCardBody>
-                    <Title>{props.title}</Title>
-                    <Subtitle>{props.data}</Subtitle>
-                    <Description>{props.overview}</Description>
+                    <Title>{title}</Title>
+                    <Subtitle>{data}</Subtitle>
+                    <Description>{overview}</Description>
             </MovieCardBody>
         </MovieCardDiv>
     )

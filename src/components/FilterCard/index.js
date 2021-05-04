@@ -5,7 +5,6 @@ const FilterCardDiv = styled.div`
     width:260px;
     border: 1px solid rgb(227,227,227);
     border-radius: 8px;
-    font-family: 'Source Sans Pro', Arial, sans-serif;
 `
 const FilterCardHeader = styled.div`
     width:100%;
@@ -28,6 +27,7 @@ const FilterCardBody = styled.div`
     min-height:200px;
     border-radius: 0px 0px 8px 8px; 
     padding-top:10px;
+
 `
 const Button = styled.button`
     width:100%;
@@ -38,6 +38,7 @@ const Button = styled.button`
     display:flex;
     align-items:center;
     justify-content:space-between;
+    cursor: pointer;
 
     span{
         margin-left:15px;
@@ -45,25 +46,48 @@ const Button = styled.button`
         cursor: pointer;
         
     }
+
     div{
         margin-right:15px;
+        width:25px;
+        height:30px;
+        border-radius:8px;
+        background-color: rgb(227,227,227);;
+        display:flex;
+        justify-content:center;
+        align-items:center;
 
-        input{
-            width:20px;
+        span{
+            margin-left:0px;
         }
     }
+    
     :hover{
         background-color:rgb(227,227,227);
+
+        div{
+            background-color:white
+        }
     }
 
     :focus{
         background-color:rgb(227,227,227);
-        font-weight:600;
+        
+
+        div{
+            background-color:white
+        }
     }
 `
 
 
-export default function FilterCard(){
+export default function FilterCard({moviesLenght,tvLenght,personLenght,filterMovies,filterTv,filterPerson}){
+
+    if (!tvLenght && !personLenght){
+        tvLenght=0
+        personLenght=0
+    }
+    
     return(
         <FilterCardDiv>
             <FilterCardHeader>
@@ -73,22 +97,32 @@ export default function FilterCard(){
             <FilterCardBody>
                 <Button>
                     <span>Tudo</span>
-                    <div> <input type='text'/> </div>
+
+                    <div> 
+                        <span>{moviesLenght+tvLenght+personLenght}</span> 
+                    </div>
                 </Button>
 
-                <Button>
+                <Button onClick={()=>filterMovies()}>
                     <span>Filmes</span>
-                    <div> <input type='text'/> </div>
+                    
+                    <div>
+                        <span>{moviesLenght}</span> 
+                    </div>
                 </Button>
 
-                <Button>
+                <Button onClick={()=>filterTv()}>
                     <span>Seriado</span>
-                    <div> <input type='text'/> </div>
+                    <div>
+                        <span>{tvLenght}</span> 
+                    </div>
                 </Button>
 
-                <Button>
+                <Button onClick={()=>filterPerson()}>
                     <span>Pessoas</span>
-                    <div> <input type='text'/> </div>
+                    <div>
+                        <span>{personLenght}</span> 
+                    </div>
                 </Button>
                 
             </FilterCardBody>
