@@ -81,7 +81,7 @@ const Button = styled.button`
 `
 
 
-export default function FilterCard({moviesLenght,tvLenght,personLenght,filterMovies,filterTv,filterPerson}){
+export default function FilterCard({moviesLenght,tvLenght,personLenght,filterMovies,filterTv,filterPerson,filterAll}){
 
     if (!tvLenght && !personLenght){
         tvLenght=0
@@ -95,7 +95,7 @@ export default function FilterCard({moviesLenght,tvLenght,personLenght,filterMov
             </FilterCardHeader>
 
             <FilterCardBody>
-                <Button>
+                <Button onClick={()=>filterAll()}>
                     <span>Tudo</span>
 
                     <div> 

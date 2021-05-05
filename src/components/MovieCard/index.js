@@ -16,6 +16,7 @@ const MovieCardImage = styled.div`
     border-radius: 8px 0px 0px 8px;
     background-image: ${props=> `url(${props.poster})`};
     background-size:cover;
+    cursor: pointer;
 `
 const MovieCardBody = styled.div`
     width: 100%;
@@ -29,6 +30,7 @@ const MovieCardBody = styled.div`
 `
 const Title = styled.h2`
     color:#000;
+    cursor: pointer;
 `
 const Subtitle = styled.span`
     white-space: nowrap;
@@ -39,13 +41,10 @@ const Description = styled.span`
     display:block;
 `
 
-export default function MovieCard({title,data,overview,image}){
+export default function MovieCard({openModal,title,data,overview,image}){
 
-
-    if(data){
-       
+    if(data){       
         data = data.split("-")
-        
         switch (data[1]){
             case '01':
                 var month = 'Janeiro'
@@ -83,19 +82,18 @@ export default function MovieCard({title,data,overview,image}){
             case '12': 
                 var month = 'Dezembro'
                 break;
-        }
-    
+        }  
         data = data[2] +' de '+ month +' de '+ data[0]
     }
     
 
     return(
         <MovieCardDiv>
-            <MovieCardImage poster={`https://image.tmdb.org/t/p/w200/${image}`}>
+            <MovieCardImage onClick={() => openModal()} poster={`https://image.tmdb.org/t/p/w200/${image}`}>
 
             </MovieCardImage>
             <MovieCardBody>
-                    <Title>{title}</Title>
+                    <Title onClick={() => openModal()} >{title}</Title>
                     <Subtitle>{data}</Subtitle>
                     <Description>{overview}</Description>
             </MovieCardBody>

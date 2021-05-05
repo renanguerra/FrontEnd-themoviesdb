@@ -8,6 +8,7 @@ import FilterCard from './components/FilterCard'
 import ModalMovie from './components/Modal'
 
 import searchImage from './assets/search.svg'
+import notFoundImage from './assets/sad.svg'
 
 
 const Main = styled.div`
@@ -28,7 +29,7 @@ const SideBody = styled.div`
 const SearchBar = styled.div`
     width:100%;
     height:40px;
-    border: 1px solid rgb(227,227,227);
+    border-bottom: 1px solid rgb(227,227,227);
     margin-bottom:20px;
     display:flex;
     justify-content:center;
@@ -48,6 +49,12 @@ const SearchBar = styled.div`
       width: 20px;
       margin-right:5px;
     }
+
+    span{
+      margin-top:10px;
+      cursor: pointer;
+      color: gray;
+    }
 `
 const Header = styled.div`
   width:100%;
@@ -64,6 +71,38 @@ const Header = styled.div`
     font-weight:600;
   }
 `
+const NotFoundDiv = styled.div`
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction: column;
+
+  img {
+    margin-top: 40px;
+    width:200px;
+    margin-bottom: 20px;
+  }
+  
+  span{
+    display:block;
+    font-size:20px;
+  }
+`
+const Footer = styled.div`
+  width:100%;
+  height:70px;
+  background-color: rgb(3,37,65);
+  display:flex;
+  align-items:center;
+  justify-content:space-around;
+
+  span{
+    font-size:16px;
+    color:white;
+  }
+`
 
 function App() {
 
@@ -71,17 +110,29 @@ function App() {
 
   const [data,setData] = useState([])
 
+  const [modalInfo,setModalInfo] = useState({
+        title: '',
+        date:'',
+        overview:'',
+        image:'',
+        backdrop: '',
+        vote_average: ''
+  })
+
+  const [modalView,setModalView] = useState()
+
   const [tvLength,setTvlength] = useState()
   const [personLength,setPersonlength] = useState()
 
   useEffect(()=>{
       axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&language=pt-BR`).then(res => {
         setData(res.data.results)
-        console.log()
+        console.log(res.data.results)
       })
   },[])
 
   useEffect(()=>{
+    
     axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&query=${searchInput}&language=pt-BR`).then(res =>{
       setData(res.data.results)
     })
@@ -94,10 +145,16 @@ function App() {
 
   },[searchInput])
 
-  function mostPopulaty(){
+  function mostPopular(){
     axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&language=pt-BR&page=1`).then(res => {
         setData(res.data.results)
       })
+  }
+
+  function topRated(){
+    axios.get(`https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.REACT_APP_API_KEY}&language=pt-BR&page=1`).then(res => {
+      setData(res.data.results)
+    })
   }
 
   function filterMovies(){
@@ -105,7 +162,6 @@ function App() {
       setData(res.data.results)
     })
   }
-
 
   function filterTv(){
     axios.get(`https://api.themoviedb.org/3/search/tv?api_key=${process.env.REACT_APP_API_KEY}&query=${searchInput}&language=pt-BR`).then(res =>{
@@ -117,42 +173,87 @@ function App() {
   function filterPerson(){
     axios.get(`https://api.themoviedb.org/3/search/person?api_key=${process.env.REACT_APP_API_KEY}&query=${searchInput}&language=pt-BR`).then(res =>{
       setData(res.data.results)
+      console.log(res.data.results)
     })
   }
 
+  function filterAll(){
+    axios.get(`https://api.themoviedb.org/3/search/multi?api_key=${process.env.REACT_APP_API_KEY}&query=${searchInput}&language=pt-BR`).then(res =>{
+      setData(res.data.results)
+    })
+  }
+
+  function openModal(e){
+    setModalInfo({
+      title: e.original_title || e.name,
+      date: e.release_date || e.first_air_date,
+      image: e.poster_path || e.profile_path,
+      overview: e.overview,
+      backdrop: e.backdrop_path,
+      vote_average: e.vote_average,
+      id: e.id
+    })
+
+    setModalView(true)
+  }
+  
+  function clearSearch(){
+    setSearchInput('')
+    mostPopular()
+  }
 
   return (
     <>
-    <ModalMovie></ModalMovie>
+    {modalView && (
+      <ModalMovie id={modalInfo.id} vote={modalInfo.vote_average} title={modalInfo.title} date={modalInfo.date} overview={modalInfo.overview} close={()=> setModalView(!modalView)} image={`https://image.tmdb.org/t/p/w500/${modalInfo.image}`} backdrop={`https://image.tmdb.org/t/p/w500/${modalInfo.backdrop}`}/>
+    )
+    }
+    
 
     <Header>
-          <span>Recomendados</span>
-          <span onClick={()=> mostPopulaty()}>Mais populares</span>
-          <span onClick={()=> filterTv()}>Meus Favoritos</span>
-          <span>Recomendados</span>
-          <span>Recomendados</span>
+          <span onClick={()=> mostPopular()}>Mais populares</span>
+          <span onClick={()=> topRated()}>Maiores Notas</span>
+
+  
     </Header>
 
     <SearchBar>
         <img src={searchImage}/>
-        <input type='text' placeholder='Buscar por um Filme, Série ou Pessoa' onChange={(e)=>setSearchInput(e.target.value)}/>
+        <input type='text' placeholder='Buscar por um Filme, Série ou Pessoa.' value={searchInput} onChange={(e)=>setSearchInput(e.target.value)}/>
+        <span onClick={()=>clearSearch()}>X</span>
+        
     </SearchBar>
 
     <Main>
         <SideBody>
-          <FilterCard moviesLenght={data.length} tvLenght={tvLength} personLenght={personLength} filterMovies={()=> filterMovies()} filterPerson={() => filterPerson()} filterTv={()=>filterTv()}/>
+          <FilterCard moviesLenght={data.length} tvLenght={tvLength} personLenght={personLength} filterMovies={()=> filterMovies()} filterPerson={() => filterPerson()} filterTv={()=>filterTv()} filterAll={() => filterAll()}/>
         </SideBody>
 
         <Body>
-          {data.map(e => <MovieCard title={e.original_title || e.name} data={e.release_date} image={e.poster_path || e.profile_path} overview={e.overview}/>)}
+          {data.map(e => 
+
+            <MovieCard 
+              title={e.original_title || e.name} 
+              data={e.release_date || e.first_air_date} 
+              image={e.poster_path || e.profile_path} 
+              overview={e.overview}
+              openModal={() => openModal(e)}
+            />
+          )}
 
           {!data[0] && (
-            <div>vazio</div>
+            <NotFoundDiv>
+              <img src={notFoundImage} alt=''/>
+              <span>Não encontramos nada referente a sua pesquisa.</span>
+              <span>Tente Novamente!</span>
+            </NotFoundDiv>
           )}
         </Body>
 
       </Main>
-      
+      <Footer>
+        <span>Feito por Renan Guerra</span>
+      </Footer>
       <GlobalStyles/>
     </>
   );
