@@ -122,44 +122,45 @@ export default function ModalMovie({id,vote,date,close, title, image, backdrop,o
 
 
 
-    if(date){       
+    if(date){    
+        let month = ''   
         date = date.split("-")
         switch (date[1]){
             case '01':
-                var month = 'Janeiro'
+                month = 'Janeiro'
                 break;
             case '02': 
-                var month = 'Fevereiro'
+                month = 'Fevereiro'
                 break;
             case '03': 
-                var month = 'Março'
+                month = 'Março'
                 break;
             case '04': 
-                var month = 'Abril'
+                month = 'Abril'
                 break;
             case '05': 
-                var month = 'Maio'
+                month = 'Maio'
                 break;
             case '06': 
-                var month = 'Junho'
+                month = 'Junho'
                 break;
             case '07': 
-                var month = 'Julho'
+                month = 'Julho'
                 break;
             case '08': 
-                var month = 'Agosto'
+                month = 'Agosto'
                 break;
             case '09': 
-                var month = 'Setembro'
+                month = 'Setembro'
                 break;
             case '10': 
-                var month = 'Outubro'
+                month = 'Outubro'
                 break;
             case '11': 
-                var month = 'Novembro'
+                month = 'Novembro'
                 break;
             case '12': 
-                var month = 'Dezembro'
+                month = 'Dezembro'
                 break;
         }  
         date = date[2] +' de '+ month +' de '+ date[0]

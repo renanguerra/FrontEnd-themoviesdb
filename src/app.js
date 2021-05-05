@@ -136,7 +136,6 @@ function App() {
   useEffect(()=>{
       axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&language=pt-BR`).then(res => {
         setData(res.data.results)
-        console.log(res.data.results)
       })
   },[])
 
@@ -211,6 +210,12 @@ function App() {
     mostPopular()
   }
 
+  function lastest(){
+    axios.get(`https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.REACT_APP_API_KEY}&language=pt-BR`).then(res => {
+      setData(res.data.results)
+    })
+  }
+
   return (
     <>
     {modalView && (
@@ -221,13 +226,14 @@ function App() {
 
     <Header>
           <span onClick={()=> mostPopular()}>Mais populares</span>
+          <span onClick={()=> lastest()}>Lançamentos</span>
           <span onClick={()=> topRated()}>Maiores Notas</span>
 
   
     </Header>
 
     <SearchBar>
-        <img src={searchImage}/>
+        <img src={searchImage} alt='search engine image'/>
         <input type='text' placeholder='Buscar por um Filme, Série ou Pessoa.' value={searchInput} onChange={(e)=>setSearchInput(e.target.value)}/>
         <span onClick={()=>clearSearch()}>X</span>
         
@@ -252,7 +258,7 @@ function App() {
 
           {!data[0] && (
             <NotFoundDiv>
-              <img src={notFoundImage} alt=''/>
+              <img src={notFoundImage} alt='sad face'/>
               <span>Não encontramos nada referente a sua pesquisa.</span>
               <span>Tente Novamente!</span>
             </NotFoundDiv>
@@ -264,8 +270,8 @@ function App() {
         <span>Feito por Renan Guerra</span>
 
         <div>
-          <a href='https://github.com/renanguerra'><img src={iconGithub}/></a>
-          <a href='https://www.linkedin.com/in/renanbguerra/'><img src={iconLinkedin}/></a>
+          <a href='https://github.com/renanguerra' target="_blank"><img src={iconGithub}/></a>
+          <a href='https://www.linkedin.com/in/renanbguerra/' target="_blank"><img src={iconLinkedin}/></a>
         </div>
 
       </Footer>
