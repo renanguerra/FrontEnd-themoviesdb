@@ -5,6 +5,12 @@ Uma aplicação usando a TheMovieDB API.
 
 Link para demonstração: https://themoviesdb-example.vercel.app/
 
+Para rodar o projeto localmente:
+- git clone 
+- npm install
+- Crie um arquivo .env na raiz do projeto com  REACT_APP_API_KEY={Insira aqui sua api key}
+- npm start
+
 ![Tela](https://user-images.githubusercontent.com/53278938/117203960-0e4d2a00-adc6-11eb-8423-05240dc20b3a.png)
 
 
