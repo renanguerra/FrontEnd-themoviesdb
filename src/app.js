@@ -9,6 +9,8 @@ import ModalMovie from './components/Modal'
 
 import searchImage from './assets/search.svg'
 import notFoundImage from './assets/sad.svg'
+import iconGithub from './assets/github.svg'
+import iconLinkedin from './assets/linkedin.svg'
 
 
 const Main = styled.div`
@@ -92,15 +94,22 @@ const NotFoundDiv = styled.div`
 `
 const Footer = styled.div`
   width:100%;
-  height:70px;
+  height:80px;
   background-color: rgb(3,37,65);
   display:flex;
+  flex-direction:column;
   align-items:center;
-  justify-content:space-around;
+  justify-content:center;
 
   span{
     font-size:16px;
     color:white;
+  }
+
+  img{
+    margin-top: 3px;
+    width: 30px;
+    margin-right: 10px;
   }
 `
 
@@ -253,6 +262,12 @@ function App() {
       </Main>
       <Footer>
         <span>Feito por Renan Guerra</span>
+
+        <div>
+          <a href='https://github.com/renanguerra'><img src={iconGithub}/></a>
+          <a href='https://www.linkedin.com/in/renanbguerra/'><img src={iconLinkedin}/></a>
+        </div>
+
       </Footer>
       <GlobalStyles/>
     </>
